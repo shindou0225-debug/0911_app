@@ -7,7 +7,7 @@
 ############################################################
 import streamlit as st
 from . import utils   #同一ディレクトリ内のutils.pyをインポート
-from . import constants  #同一ディレクトリ内のconstants.pyをインポート
+from . import constants as ct  #同一ディレクトリ内のconstants.pyをインポート
 
 
 ############################################################
