@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 # ログ出力を行うためのモジュール
 import logging
 # streamlitアプリの表示を担当するモジュール
-import streamlit as st
+import streamlit as st   # as st の表記でstreamlitをstとして扱う
 # （自作）画面表示以外の様々な関数が定義されているモジュール
 from sub_cis_0911_app import utils
 # （自作）アプリ起動時に実行される初期化処理が記述された関数
@@ -26,11 +26,11 @@ from sub_cis_0911_app import components
 ############################################################
 # ブラウザタブの表示文言を設定
 st.set_page_config(
-    page_title=ct.APP_NAME
+    page_title=constants.APP_NAME
 )
 
 # ログ出力を行うためのロガーの設定
-logger = logging.getLogger(ct.LOGGER_NAME)
+logger = logging.getLogger(constants.LOGGER_NAME)
 
 
 ############################################################
@@ -50,20 +50,20 @@ except Exception as e:
 # アプリ起動時のログファイルへの出力
 if not "initialized" in st.session_state:
     st.session_state.initialized = True
-    logger.info(ct.APP_BOOT_MESSAGE)
+    logger.info(constants.APP_BOOT_MESSAGE)
 
 
 ############################################################
 # 4. 初期表示
 ############################################################
 # タイトル表示
-cn.display_app_title()
+components.display_app_title()
 
 # モード表示
-cn.display_select_mode()
+components.display_select_mode()
 
 # AIメッセージの初期表示
-cn.display_initial_ai_message()
+components.display_initial_ai_message()
 
 
 ############################################################
@@ -71,12 +71,12 @@ cn.display_initial_ai_message()
 ############################################################
 try:
     # 会話ログの表示
-    cn.display_conversation_log()
+    components.display_conversation_log()
 except Exception as e:
     # エラーログの出力
-    logger.error(f"{ct.CONVERSATION_LOG_ERROR_MESSAGE}\n{e}")
+    logger.error(f"{constants.CONVERSATION_LOG_ERROR_MESSAGE}\n{e}")
     # エラーメッセージの画面表示
-    st.error(utils.build_error_message(ct.CONVERSATION_LOG_ERROR_MESSAGE), icon=ct.ERROR_ICON)
+    st.error(utils.build_error_message(constants.CONVERSATION_LOG_ERROR_MESSAGE), icon=constants.ERROR_ICON)
     # 後続の処理を中断
     st.stop()
 
@@ -84,7 +84,7 @@ except Exception as e:
 ############################################################
 # 6. チャット入力の受け付け
 ############################################################
-chat_message = st.chat_input(ct.CHAT_INPUT_HELPER_TEXT)
+chat_message = st.chat_input(constants.CHAT_INPUT_HELPER_TEXT)
 
 
 ############################################################
@@ -107,15 +107,15 @@ if chat_message:
     # 「st.spinner」でグルグル回っている間、表示の不具合が発生しないよう空のエリアを表示
     res_box = st.empty()
     # LLMによる回答生成（回答生成が完了するまでグルグル回す）
-    with st.spinner(ct.SPINNER_TEXT):
+    with st.spinner(constants.SPINNER_TEXT):
         try:
             # 画面読み込み時に作成したRetrieverを使い、Chainを実行
             llm_response = utils.get_llm_response(chat_message)
         except Exception as e:
             # エラーログの出力
-            logger.error(f"{ct.GET_LLM_RESPONSE_ERROR_MESSAGE}\n{e}")
+            logger.error(f"{constants.GET_LLM_RESPONSE_ERROR_MESSAGE}\n{e}")
             # エラーメッセージの画面表示
-            st.error(utils.build_error_message(ct.GET_LLM_RESPONSE_ERROR_MESSAGE), icon=ct.ERROR_ICON)
+            st.error(utils.build_error_message(constants.GET_LLM_RESPONSE_ERROR_MESSAGE), icon=constants.ERROR_ICON)
             # 後続の処理を中断
             st.stop()
     
@@ -127,24 +127,24 @@ if chat_message:
             # ==========================================
             # モードが「社内文書検索」の場合
             # ==========================================
-            if st.session_state.mode == ct.ANSWER_MODE_1:
+            if st.session_state.mode == constants.ANSWER_MODE_1:
                 # 入力内容と関連性が高い社内文書のありかを表示
-                content = cn.display_search_llm_response(llm_response)
+                content = components.display_search_llm_response(llm_response)
 
             # ==========================================
             # モードが「社内問い合わせ」の場合
             # ==========================================
-            elif st.session_state.mode == ct.ANSWER_MODE_2:
+            elif st.session_state.mode == constants.ANSWER_MODE_2:
                 # 入力に対しての回答と、参照した文書のありかを表示
-                content = cn.display_contact_llm_response(llm_response)
-            
+                content = components.display_contact_llm_response(llm_response)
+
             # AIメッセージのログ出力
             logger.info({"message": content, "application_mode": st.session_state.mode})
         except Exception as e:
             # エラーログの出力
-            logger.error(f"{ct.DISP_ANSWER_ERROR_MESSAGE}\n{e}")
+            logger.error(f"{constants.DISP_ANSWER_ERROR_MESSAGE}\n{e}")
             # エラーメッセージの画面表示
-            st.error(utils.build_error_message(ct.DISP_ANSWER_ERROR_MESSAGE), icon=ct.ERROR_ICON)
+            st.error(utils.build_error_message(constants.DISP_ANSWER_ERROR_MESSAGE), icon=constants.ERROR_ICON)
             # 後続の処理を中断
             st.stop()
 
