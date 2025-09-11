@@ -18,7 +18,7 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
-import CISearchApp.constants as ct
+from . import constants as ct
 
 
 ############################################################

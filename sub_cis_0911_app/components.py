@@ -6,8 +6,8 @@
 # ライブラリの読み込み
 ############################################################
 import streamlit as st
-import CISearchApp.utils as utils
-import CISearchApp.constants as ct
+from . import utils   #同一ディレクトリ内のutils.pyをインポート
+from . import constants  #同一ディレクトリ内のconstants.pyをインポート
 
 
 ############################################################
