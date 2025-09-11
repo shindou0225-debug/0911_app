@@ -36,10 +36,13 @@ logger = logging.getLogger(constants.LOGGER_NAME)
 ############################################################
 # 3. 初期化処理
 ############################################################
+print("Initializing application...　☆３．初期化処理")
 try:
     # 初期化処理（「initialize.py」の「initialize」関数を実行）
     initialize.initialize()
+    print("Initialization complete.")
 except Exception as e:
+    print("Initialization failed.")
     # エラーログの出力
     logger.error(f"{constants.INITIALIZE_ERROR_MESSAGE}\n{e}")
     # エラーメッセージの画面表示
