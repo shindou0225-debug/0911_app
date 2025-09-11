@@ -12,13 +12,13 @@ import logging
 # streamlitアプリの表示を担当するモジュール
 import streamlit as st
 # （自作）画面表示以外の様々な関数が定義されているモジュール
-import CISearchApp.utils as utils
+from sub_cis_0911_app import utils
 # （自作）アプリ起動時に実行される初期化処理が記述された関数
-from CISearchApp.initialize import initialize
+from sub_cis_0911_app import initialize
 # （自作）画面表示系の関数が定義されているモジュール
-import CISearchApp.components as cn
+from sub_cis_0911_app import constants
 # （自作）変数（定数）がまとめて定義・管理されているモジュール
-import CISearchApp.constants as ct
+from sub_cis_0911_app import components
 
 
 ############################################################
