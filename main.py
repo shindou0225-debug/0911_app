@@ -20,10 +20,17 @@ from sub_cis_0911_app import constants
 # （自作）変数（定数）がまとめて定義・管理されているモジュール
 from sub_cis_0911_app import components
 
+#########追加
+from dotenv import load_dotenv
+
+load_dotenv()
+#########
 
 ############################################################
 # 2. 設定関連
 ############################################################
+print("Loading environment variables...　☆２．設定関連")
+st.write("★★★　test test st.write in main.py")  # デバッグ用
 # ブラウザタブの表示文言を設定
 st.set_page_config(
     page_title=constants.APP_NAME
@@ -37,6 +44,7 @@ logger = logging.getLogger(constants.LOGGER_NAME)
 # 3. 初期化処理
 ############################################################
 print("Initializing application...　☆３．初期化処理")
+st.write("★★★　３．初期化処理　test test st.write in main.py")  # デバッグ用
 try:
     # 初期化処理（「initialize.py」の「initialize」関数を実行）
     initialize.initialize()
