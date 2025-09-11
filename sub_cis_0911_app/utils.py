@@ -13,7 +13,7 @@ from langchain.schema import HumanMessage
 from langchain_openai import ChatOpenAI
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from . import constants   #同一ディレクトリ内のconstants.pyをインポート
+from . import constants as ct   #同一ディレクトリ内のconstants.pyをインポート
 
 
 ############################################################
