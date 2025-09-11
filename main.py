@@ -38,7 +38,7 @@ logger = logging.getLogger(constants.LOGGER_NAME)
 ############################################################
 try:
     # 初期化処理（「initialize.py」の「initialize」関数を実行）
-    initialize()
+    initialize.initialize()
 except Exception as e:
     # エラーログの出力
     logger.error(f"{constants.INITIALIZE_ERROR_MESSAGE}\n{e}")
