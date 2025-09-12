@@ -117,6 +117,8 @@ def initialize_retriever():
     # RAGの参照先となるデータソースの読み込み
     docs_all = load_data_sources()
 
+    st.write(f"initialize_retriever after load_data_sources @@@ Total documents loaded: {len(docs_all)}")
+
     # OSがWindowsの場合、Unicode正規化と、cp932（Windows用の文字コード）で表現できない文字を除去
     for doc in docs_all:
         doc.page_content = adjust_string(doc.page_content)
@@ -166,6 +168,8 @@ def load_data_sources():
     # ファイル読み込みの実行（渡した各リストにデータが格納される）
     recursive_file_check(ct.RAG_TOP_FOLDER_PATH, docs_all)
 
+    st.write(f"@@@ @@@ Total documents loaded: {len(docs_all)}")
+
     web_docs_all = []
     # ファイルとは別に、指定のWebページ内のデータも読み込み
     # 読み込み対象のWebページ一覧に対して処理
@@ -205,7 +209,7 @@ def recursive_file_check(path, docs_all):
             # フルパスを渡し、再帰的にファイル読み込みの関数を実行
             recursive_file_check(full_path, docs_all)
     else:
-        st.write(f"@@@ Path is a file: {path}")
+        st.write(f"@@@ Path is a file: {path} ファイルの読み込みを実行します")
         # パスがファイルの場合、ファイル読み込み
         file_load(path, docs_all)
 
