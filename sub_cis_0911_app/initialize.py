@@ -144,8 +144,14 @@ def initialize_retriever():
 
     st.write(f"@@@ Total documents after splitting: {len(splitted_docs)}")
 
-    # ベクターストアの作成
-    db = Chroma.from_documents(splitted_docs, embedding=embeddings)
+    # ベクターストアの作成 エラー発生ポイント！
+    #db = Chroma.from_documents(splitted_docs, embedding=embeddings)
+    try:
+    # エラーが起きそうな処理
+        db = Chroma.from_documents(splitted_docs, embedding=embeddings)
+    except Exception as e:
+        st.write("エラーの種類:", type(e).__name__)
+        st.write("エラーメッセージ:", str(e))
 
     st.write("initialize_retriever after Chroma.from_documents")
 
