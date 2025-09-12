@@ -183,7 +183,7 @@ def load_data_sources():
 
 def recursive_file_check(path, docs_all):
     """
-    RAGの参照先となるデータソースの読み込み
+    RAGの参照先となるデータソースの読み込み path = RAG_TOP_FOLDER_PATH = "./data"
 
     Args:
         path: 読み込み対象のファイル/フォルダのパス
@@ -193,6 +193,9 @@ def recursive_file_check(path, docs_all):
     if os.path.isdir(path):
         # フォルダの場合、フォルダ内のファイル/フォルダ名の一覧を取得
         files = os.listdir(path)
+        if(len(files) == 0):
+            st.warning(f"指定のフォルダ内にファイルが存在しません。フォルダパス: {path}", icon=ct.WARNING_ICON)
+            return
         # 各ファイル/フォルダに対して処理
         for file in files:
             # ファイル/フォルダ名だけでなく、フルパスを取得
