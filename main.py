@@ -20,25 +20,25 @@ from sub_cis_0911_app import constants
 # （自作）変数（定数）がまとめて定義・管理されているモジュール
 from sub_cis_0911_app import components
 
-#########追加
-from dotenv import load_dotenv
-
-load_dotenv()
-#########
-
 ############################################################
 # 2. 設定関連
 ############################################################
 print("Loading environment variables...　☆２．設定関連")
-st.write("★★★　test test st.write in main.py")  # デバッグ用
-# ブラウザタブの表示文言を設定
+
+# ブラウザタブの表示文言を設定 ★st.set_page_config() はアプリ内で「最初の Streamlit コマンド」でなければならない
 st.set_page_config(
     page_title=constants.APP_NAME
 )
-
+st.write("★★★Loading environment variables...　☆２．設定関連")  # デバッグ用
 # ログ出力を行うためのロガーの設定
 logger = logging.getLogger(constants.LOGGER_NAME)
 
+
+#########追加
+from dotenv import load_dotenv
+# .envファイルの内容を環境変数として読み込む
+load_dotenv()
+#########
 
 ############################################################
 # 3. 初期化処理
