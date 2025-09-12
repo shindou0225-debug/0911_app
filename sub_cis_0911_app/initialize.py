@@ -192,6 +192,7 @@ def recursive_file_check(path, docs_all):
     st.write(f"@@@ Checking path: {path}")
     # パスがフォルダかどうかを確認
     if os.path.isdir(path):
+        st.write(f"@@@ Path is a directory: {path}")
         # フォルダの場合、フォルダ内のファイル/フォルダ名の一覧を取得
         files = os.listdir(path)
         if(len(files) == 0):
@@ -204,6 +205,7 @@ def recursive_file_check(path, docs_all):
             # フルパスを渡し、再帰的にファイル読み込みの関数を実行
             recursive_file_check(full_path, docs_all)
     else:
+        st.write(f"@@@ Path is a file: {path}")
         # パスがファイルの場合、ファイル読み込み
         file_load(path, docs_all)
 
