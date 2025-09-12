@@ -17,8 +17,8 @@ from docx import Document
 from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
+# DuckDB ベースの Chroma を使う
 from langchain_community.vectorstores import Chroma
-from chromadb.config import Settings as ChromaSettings
 from . import constants as ct
 
 
@@ -147,6 +147,15 @@ def initialize_retriever():
 
     # ベクターストアの作成 エラー発生ポイント！
     #db = Chroma.from_documents(splitted_docs, embedding=embeddings)
+
+    # Chroma 初期化 (DuckDB + Parquet を使用)
+    db = Chroma.from_documents(
+    splitted_docs,
+    embedding=embeddings,
+    persist_directory=os.path.join(ct.RAG_TOP_FOLDER_PATH, "chroma_db"),
+    client_settings={"chroma_db_impl": "duckdb+parquet"}  # SQLite を回避
+    )
+    """
     db = Chroma.from_documents(
     splitted_docs,
     embedding=embeddings,
@@ -155,8 +164,8 @@ def initialize_retriever():
         persist_directory="./chroma_db"   # データを保存する場所
         )
     )
-
-    """"
+    """
+    """
     try:
     # エラーが起きそうな処理
         db = Chroma.from_documents(splitted_docs, embedding=embeddings)
@@ -164,6 +173,7 @@ def initialize_retriever():
         st.write("エラーの種類:", type(e).__name__)
         st.write("エラーメッセージ:", str(e))
     """
+
 
     st.write("initialize_retriever after Chroma.from_documents")
 
