@@ -125,8 +125,12 @@ def initialize_retriever():
         for key in doc.metadata:
             doc.metadata[key] = adjust_string(doc.metadata[key])
     
+    st.write("initialize_retriever after adjust_string")
+    
     # 埋め込みモデルの用意
     embeddings = OpenAIEmbeddings()
+
+    st.write("initialize_retriever after OpenAIEmbeddings")
     
     # チャンク分割用のオブジェクトを作成
     text_splitter = CharacterTextSplitter(
@@ -138,8 +142,12 @@ def initialize_retriever():
     # チャンク分割を実施
     splitted_docs = text_splitter.split_documents(docs_all)
 
+    st.write(f"@@@ Total documents after splitting: {len(splitted_docs)}")
+
     # ベクターストアの作成
     db = Chroma.from_documents(splitted_docs, embedding=embeddings)
+
+    st.write("initialize_retriever after Chroma.from_documents")
 
     # ベクターストアを検索するRetrieverの作成
     st.session_state.retriever = db.as_retriever(search_kwargs={"k": 3})
