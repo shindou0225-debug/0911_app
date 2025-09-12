@@ -189,6 +189,7 @@ def recursive_file_check(path, docs_all):
         path: 読み込み対象のファイル/フォルダのパス
         docs_all: データソースを格納する用のリスト
     """
+    st.write(f"@@@ Checking path: {path}")
     # パスがフォルダかどうかを確認
     if os.path.isdir(path):
         # フォルダの場合、フォルダ内のファイル/フォルダ名の一覧を取得
