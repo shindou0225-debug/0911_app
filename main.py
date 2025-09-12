@@ -48,9 +48,9 @@ st.write("★★★　３．初期化処理　test test st.write in main.py")  #
 try:
     # 初期化処理（「initialize.py」の「initialize」関数を実行）
     initialize.initialize()
-    print("Initialization complete.")
+    st.write("Initialization complete.")
 except Exception as e:
-    print("Initialization failed.")
+    st.write("Initialization failed.")
     # エラーログの出力
     logger.error(f"{constants.INITIALIZE_ERROR_MESSAGE}\n{e}")
     # エラーメッセージの画面表示
