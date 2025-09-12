@@ -147,20 +147,23 @@ def initialize_retriever():
 
     # ベクターストアの作成 エラー発生ポイント！
     #db = Chroma.from_documents(splitted_docs, embedding=embeddings)
+    db = Chroma.from_documents(
+    splitted_docs,
+    embedding=embeddings,
+    client_settings=ChromaSettings(
+        chroma_db_impl="duckdb+parquet",  # ← これでOK
+        persist_directory="./chroma_db"   # データを保存する場所
+        )
+    )
+
+    """"
     try:
     # エラーが起きそうな処理
         db = Chroma.from_documents(splitted_docs, embedding=embeddings)
     except Exception as e:
         st.write("エラーの種類:", type(e).__name__)
         st.write("エラーメッセージ:", str(e))
-        db = Chroma.from_documents(
-        splitted_docs,
-        embedding=embeddings,
-        client_settings=ChromaSettings(
-            chroma_db_impl="duckdb+parquet",  # ← これでOK
-            persist_directory="./chroma_db"   # データを保存する場所
-        )
-)
+    """
 
     st.write("initialize_retriever after Chroma.from_documents")
 
