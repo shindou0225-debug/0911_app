@@ -37,12 +37,16 @@ def initialize():
     画面読み込み時に実行する初期化処理
     """
     # 初期化データの用意
+    st.write("@Initializing session state...")
     initialize_session_state()
     # ログ出力用にセッションIDを生成
+    st.write("@Initializing session ID...")
     initialize_session_id()
     # ログ出力の設定
+    st.write("@Initializing logger...")
     initialize_logger()
     # RAGのRetrieverを作成
+    st.write("@Initializing retriever...")
     initialize_retriever()
 
 
@@ -108,7 +112,8 @@ def initialize_retriever():
     # すでにRetrieverが作成済みの場合、後続の処理を中断
     if "retriever" in st.session_state:
         return
-    
+    else:
+        st.write("@Creating retriever... Retriever not found in session state.")
     # RAGの参照先となるデータソースの読み込み
     docs_all = load_data_sources()
 
