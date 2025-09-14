@@ -33,17 +33,12 @@ def is_cloud():
     """
     Streamlit Cloud 上かどうかを判定
     """
-    # 1. secrets.toml に設定した値を優先
-    env = st.secrets.get("env", {}).get("ENVIRONMENT", None)
+    # 1. OS 環境変数で指定されていればそれを優先
+    env = os.environ.get("ENVIRONMENT")
     if env:
-        return env == "cloud"
+        return env.lower() == "cloud"
 
-    # 2. 環境変数 ENVIRONMENT を利用
-    env = os.environ.get("ENVIRONMENT", None)
-    if env:
-        return env == "cloud"
-
-    # 3. フォルダ構造から推測（Streamlit Cloud は /mount/src がベース）
+    # 2. フォルダ構造から判定（Streamlit Cloud は /mount/src 配下）
     return os.getcwd().startswith("/mount/src")
 
 ############################################################
@@ -191,10 +186,21 @@ def initialize_retriever():
         st.write("✅ Streamlit Cloud 上で実行中です")
         # Streamlit Cloud 上で実行する場合、sqlite を回避する、ローカルでDBを作成して.chromaフォルダをアップロードする
             # クラウド環境では読み取り専用
-        db = Chroma(
-            embedding_function=embeddings,
-            persist_directory=persist_dir
-        )
+        try:
+            # エラーが起きそうな処理
+            db = Chroma(
+                embedding_function=embeddings,
+                persist_directory=persist_dir
+            )
+        except Exception as e:
+            st.write("エラーの種類:", type(e).__name__)
+            st.write("エラーメッセージ:", str(e))
+            st.write("Chromaの初期化に失敗しました。")
+            logger.error(f"Chromaの初期化に失敗しました。\n{e}")
+            # エラーメッセージの画面表示
+            st.error(ct.COMMON_ERROR_MESSAGE, icon=ct.ERROR_ICON)
+            # 後続の処理を中断
+            st.stop()
     else:
         st.write("💻 ローカル環境で実行中です")
         try:
