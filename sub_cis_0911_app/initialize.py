@@ -168,24 +168,41 @@ def initialize_retriever():
     )
     """
     
+    persist_dir = ".chroma"
+
+    if os.environ.get("STREAMLIT_RUNTIME_ENVIRONMENT") == "cloud":
+        st.write("✅ Streamlit Cloud 上で実行中です")
+        # Streamlit Cloud 上で実行する場合、sqlite を回避する、ローカルでDBを作成して.chromaフォルダをアップロードする
+    else:
+        st.write("💻 ローカル環境で実行中です")
+        try:
+            # エラーが起きそうな処理
+            db = Chroma.from_documents(splitted_docs, embedding=embeddings, persist_directory=persist_dir)
+            db.persist()
+        except Exception as e:
+            st.write("エラーの種類:", type(e).__name__)
+            st.write("エラーメッセージ:", str(e))
+    
+        st.write("initialize_retriever after Chroma.from_documents")
+
     try:
     # エラーが起きそうな処理
-        db = Chroma.from_documents(
-        splitted_docs,
-        embedding=embeddings,
-        persist_directory=os.path.join(ct.RAG_TOP_FOLDER_PATH, "chroma_db"),
-        client_settings={"chroma_db_impl": "duckdb+parquet"}  # SQLite を回避
-        )
+        db = Chroma.from_documents(splitted_docs, embedding=embeddings, persist_directory=persist_dir)
+        db.persist()
     except Exception as e:
         st.write("エラーの種類:", type(e).__name__)
         st.write("エラーメッセージ:", str(e))
     
-
-
     st.write("initialize_retriever after Chroma.from_documents")
 
     # ベクターストアを検索するRetrieverの作成
-    st.session_state.retriever = db.as_retriever(search_kwargs={"k": 3})
+    #st.session_state.retriever = db.as_retriever(search_kwargs={"k": 3})
+    try:
+    # エラーが起きそうな処理
+        st.session_state.retriever = db.as_retriever(search_kwargs={"k": 3})
+    except Exception as e:
+        st.write("エラーの種類:", type(e).__name__)
+        st.write("エラーメッセージ:", str(e))
 
 
 def initialize_session_state():
@@ -236,14 +253,14 @@ def recursive_file_check(path, docs_all):
         path: 読み込み対象のファイル/フォルダのパス
         docs_all: データソースを格納する用のリスト
     """
-    st.write(f"@@@ Checking path: {path}")
+    #st.write(f"@@@ Checking path: {path}")
     # パスがフォルダかどうかを確認
     if os.path.isdir(path):
         st.write(f"@@@ Path is a directory: {path}")
         # フォルダの場合、フォルダ内のファイル/フォルダ名の一覧を取得
         files = os.listdir(path)
         if(len(files) == 0):
-            st.warning(f"指定のフォルダ内にファイルが存在しません。フォルダパス: {path}", icon=ct.WARNING_ICON)
+            #st.warning(f"指定のフォルダ内にファイルが存在しません。フォルダパス: {path}", icon=ct.WARNING_ICON)
             return
         # 各ファイル/フォルダに対して処理
         for file in files:
