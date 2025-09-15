@@ -19,6 +19,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 # DuckDB ベースの Chroma を使う
 from langchain_community.vectorstores import Chroma
+from langchain.vectorstores import FAISS
 from . import constants as ct
 
 
@@ -188,15 +189,7 @@ def initialize_retriever():
             # クラウド環境では読み取り専用
         try:
             # エラーが起きそうな処理
-            # DuckDB+Parquet を使う設定
-            from chromadb.config import Settings
-            settings = Settings(chroma_db_impl="duckdb+parquet", persist_directory=persist_dir)
-            st.write(f"settings = Settings(chroma_db_impl=\"duckdb+parquet\", persist_directory={persist_dir})")
-            db = Chroma(
-                persist_directory=persist_dir,
-                embedding_function=embeddings,
-                client_settings=settings
-            )
+            db = FAISS.load_local(".faiss", embeddings, allow_dangerous_deserialization=True)
         except Exception as e:
             st.write("エラーの種類:", type(e).__name__)
             st.write("エラーメッセージ:", str(e))
@@ -212,6 +205,8 @@ def initialize_retriever():
             # エラーが起きそうな処理
             db = Chroma.from_documents(splitted_docs, embedding=embeddings, persist_directory=persist_dir)
             db.persist()
+            db = FAISS.from_documents(splitted_docs, embedding=embeddings)
+            db.save_local(".faiss")
         except Exception as e:
             st.write("エラーの種類:", type(e).__name__)
             st.write("エラーメッセージ:", str(e))
