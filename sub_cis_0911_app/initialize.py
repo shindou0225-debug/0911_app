@@ -192,8 +192,9 @@ def initialize_retriever():
             from chromadb.config import Settings
             settings = Settings(chroma_db_impl="duckdb+parquet", persist_directory=persist_dir)
             db = Chroma(
+                persist_directory=persist_dir,
                 embedding_function=embeddings,
-                persist_directory=persist_dir
+                client_settings=settings
             )
         except Exception as e:
             st.write("エラーの種類:", type(e).__name__)
