@@ -90,7 +90,7 @@ def display_conversation_log():
                         if "main_page_number" in message["content"]:
                             #str = f"{message['content']['main_file_path']} （ページNo.{message['content']['main_page_number']}）"
                             #st.success(f"{str}", icon=icon)
-                            st.success(f"{message['content']['main_file_path']}", icon=icon)
+                            st.success(f"{message['content']['main_file_path']} （ページNo.{message['content']['main_page_number']}）", icon=icon)
                         else:
                             st.success(f"{message['content']['main_file_path']}", icon=icon)
                         
