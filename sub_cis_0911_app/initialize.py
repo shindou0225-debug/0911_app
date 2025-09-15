@@ -125,6 +125,7 @@ def initialize_retriever():
 
     # すでにRetrieverが作成済みの場合、後続の処理を中断
     if "retriever" in st.session_state:
+        st.write("@Retriever already initialized. Skipping retriever initialization. すでにRetrieverが作成済みの場合、中断")
         return
     else:
         st.write("@Creating retriever... Retriever not found in session state.")
@@ -148,8 +149,8 @@ def initialize_retriever():
     
     # チャンク分割用のオブジェクトを作成
     text_splitter = CharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=50,
+        chunk_size=ct.CHUNK_SIZE,
+        chunk_overlap=ct.CHUNK_OVERLAP,
         separator="\n"
     )
 
@@ -218,7 +219,7 @@ def initialize_retriever():
     #st.session_state.retriever = db.as_retriever(search_kwargs={"k": 3})
     try:
     # エラーが起きそうな処理
-        st.session_state.retriever = db.as_retriever(search_kwargs={"k": 3})
+        st.session_state.retriever = db.as_retriever(search_kwargs={"k": ct.RELATED_DOC_NUM})
     except Exception as e:
         st.write("エラーの種類:", type(e).__name__)
         st.write("エラーメッセージ:", str(e))
