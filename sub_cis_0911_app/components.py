@@ -88,7 +88,9 @@ def display_conversation_log():
                         icon = utils.get_source_icon(message['content']['main_file_path'])
                         # 参照元ドキュメントのページ番号が取得できた場合にのみ、ページ番号を表示
                         if "main_page_number" in message["content"]:
-                            st.success(f"{message['content']['main_file_path']}", icon=icon)
+                            str = f"{message['content']['main_file_path']} （ページNo.{message['content']['main_page_number']}）"
+                            st.success(f"{str}", icon=icon)
+                            #st.success(f"{message['content']['main_file_path']}", icon=icon)
                         else:
                             st.success(f"{message['content']['main_file_path']}", icon=icon)
                         
@@ -105,9 +107,9 @@ def display_conversation_log():
                                 icon = utils.get_source_icon(sub_choice['source'])
                                 # 参照元ドキュメントのページ番号が取得できた場合にのみ、ページ番号を表示
                                 if "page_number" in sub_choice:
-                                    st.info(f"{sub_choice['source']}", icon=icon)
+                                    st.info(f"{sub_choice['source']['page_number']}", icon=icon) #added ['page_number']
                                 else:
-                                    st.info(f"{sub_choice['source']}", icon=icon)
+                                    st.info(f"fujio and {sub_choice['source']}", icon=icon)
                     # ファイルのありかの情報が取得できなかった場合、LLMからの回答のみ表示
                     else:
                         st.markdown(message["content"]["answer"])
@@ -254,6 +256,8 @@ def display_search_llm_response(llm_response):
         content["answer"] = ct.NO_DOC_MATCH_MESSAGE
         content["no_file_path_flg"] = True
     
+    st.write(content)
+
     return content
 
 
@@ -323,5 +327,7 @@ def display_contact_llm_response(llm_response):
     if llm_response["answer"] != ct.INQUIRY_NO_MATCH_ANSWER:
         content["message"] = message
         content["file_info_list"] = file_info_list
+
+    st.write(content)
 
     return content
