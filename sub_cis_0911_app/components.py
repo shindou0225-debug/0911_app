@@ -131,7 +131,7 @@ def display_conversation_log():
                             icon = utils.get_source_icon(file_info)
                             st.info(file_info, icon=icon)
 
-    st.autorefresh(interval=1, limit=1, key="manual_refresh")
+    st.autorefresh(interval=1000, limit=1, key="manual_refresh")
 
 
 def display_search_llm_response(llm_response):
