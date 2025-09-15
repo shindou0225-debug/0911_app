@@ -133,7 +133,7 @@ def display_conversation_log():
 
     try:
         # 会話ログの最後まで自動スクロール
-        st.experimental_rerun()
+        st.rerun()
         st.autorefresh(interval=1000, limit=1, key="manual_refresh")
     except Exception as e:
         st.error(f"Error occurred: {e}")
