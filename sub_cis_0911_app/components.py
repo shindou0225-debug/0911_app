@@ -256,7 +256,7 @@ def display_search_llm_response(llm_response):
         content["answer"] = ct.NO_DOC_MATCH_MESSAGE
         content["no_file_path_flg"] = True
     
-    st.write(content)
+    #st.write(content)
 
     return content
 
@@ -328,6 +328,6 @@ def display_contact_llm_response(llm_response):
         content["message"] = message
         content["file_info_list"] = file_info_list
 
-    st.write(content)
+    #st.write(content)
 
     return content
