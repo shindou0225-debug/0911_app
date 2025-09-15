@@ -88,7 +88,7 @@ def display_conversation_log():
                         icon = utils.get_source_icon(message['content']['main_file_path'])
                         # 参照元ドキュメントのページ番号が取得できた場合にのみ、ページ番号を表示
                         if "main_page_number" in message["content"]:
-                            str = f"{message['content']['main_file_path']} （ページNo.{message['content']['main_page_number']}）"
+                            #str = f"{message['content']['main_file_path']} （ページNo.{message['content']['main_page_number']}）"
                             #st.success(f"{str}", icon=icon)
                             st.success(f"{message['content']['main_file_path']}", icon=icon)
                         else:
