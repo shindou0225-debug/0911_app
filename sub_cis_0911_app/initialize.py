@@ -191,6 +191,7 @@ def initialize_retriever():
             # DuckDB+Parquet を使う設定
             from chromadb.config import Settings
             settings = Settings(chroma_db_impl="duckdb+parquet", persist_directory=persist_dir)
+            st.write(f"settings = Settings(chroma_db_impl=\"duckdb+parquet\", persist_directory={persist_dir})")
             db = Chroma(
                 persist_directory=persist_dir,
                 embedding_function=embeddings,
