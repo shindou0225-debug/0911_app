@@ -91,11 +91,6 @@ def display_conversation_log():
                             #str = f"{message['content']['main_file_path']} （ページNo.{message['content']['main_page_number']}）"
                             #st.success(f"{str}", icon=icon)
                             st.success(f"{message['content']['main_file_path']} （ページNo.{message['content']['main_page_number']}）", icon=icon)
-                            try:
-                                st.autorefresh(interval=1000, limit=1, key="manual_refresh")
-                            except Exception as e:
-                                st.error(f"Error occurred: {e}")
-                                
                         else:
                             st.success(f"{message['content']['main_file_path']}", icon=icon)
                         
