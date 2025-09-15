@@ -188,6 +188,9 @@ def initialize_retriever():
             # クラウド環境では読み取り専用
         try:
             # エラーが起きそうな処理
+            # DuckDB+Parquet を使う設定
+            from chromadb.config import Settings
+            settings = Settings(chroma_db_impl="duckdb+parquet", persist_directory=persist_dir)
             db = Chroma(
                 embedding_function=embeddings,
                 persist_directory=persist_dir
