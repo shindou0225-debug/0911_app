@@ -102,6 +102,13 @@ def get_llm_response(chat_message):
     history_aware_retriever = create_history_aware_retriever(
         llm, st.session_state.retriever, question_generator_prompt
     )
+    #st.session_state.retriever ★★★
+    #
+    #initialize.py で定義したRetriever
+    #
+    #db = Chroma.from_documents(splitted_docs, embedding=embeddings)
+    #st.session_state.retriever = db.as_retriever(search_kwargs={"k": 3})
+    #
 
     # LLMから回答を取得する用のChainを作成
     question_answer_chain = create_stuff_documents_chain(llm, question_answer_prompt)
