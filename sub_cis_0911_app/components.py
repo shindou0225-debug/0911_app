@@ -131,7 +131,12 @@ def display_conversation_log():
                             icon = utils.get_source_icon(file_info)
                             st.info(file_info, icon=icon)
 
-    st.autorefresh(interval=1000, limit=1, key="manual_refresh")
+    try:
+        # 会話ログの最後まで自動スクロール
+        st.experimental_rerun()
+        st.autorefresh(interval=1000, limit=1, key="manual_refresh")
+    except Exception as e:
+        st.error(f"Error occurred: {e}")
 
 
 def display_search_llm_response(llm_response):
