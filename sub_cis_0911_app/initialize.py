@@ -188,7 +188,9 @@ def initialize_retriever():
         # Streamlit Cloud 上で実行する場合、sqlite を回避する、ローカルでDBを作成して.faissフォルダをアップロードする
             # クラウド環境では読み取り専用
         try:
-            # エラーが起きそうな処理
+            # クラウド上ではFAISSを使用 sqliteno問題を回避
+            db = FAISS.from_documents(splitted_docs, embedding=embeddings)
+            db.save_local(".faiss")
             db = FAISS.load_local(".faiss", embeddings, allow_dangerous_deserialization=True)
             st.write("faiss loading successfully.")
         except Exception as e:
@@ -206,8 +208,6 @@ def initialize_retriever():
             # エラーが起きそうな処理
             db = Chroma.from_documents(splitted_docs, embedding=embeddings, persist_directory=persist_dir)
             db.persist()
-            db = FAISS.from_documents(splitted_docs, embedding=embeddings)
-            db.save_local(".faiss")
         except Exception as e:
             st.write("エラーの種類:", type(e).__name__)
             st.write("エラーメッセージ:", str(e))
