@@ -185,11 +185,12 @@ def initialize_retriever():
 
     if is_cloud():
         st.write("✅ Streamlit Cloud 上で実行中です")
-        # Streamlit Cloud 上で実行する場合、sqlite を回避する、ローカルでDBを作成して.chromaフォルダをアップロードする
+        # Streamlit Cloud 上で実行する場合、sqlite を回避する、ローカルでDBを作成して.faissフォルダをアップロードする
             # クラウド環境では読み取り専用
         try:
             # エラーが起きそうな処理
             db = FAISS.load_local(".faiss", embeddings, allow_dangerous_deserialization=True)
+            st.write("faiss loading successfully.")
         except Exception as e:
             st.write("エラーの種類:", type(e).__name__)
             st.write("エラーメッセージ:", str(e))
